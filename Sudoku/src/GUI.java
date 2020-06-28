@@ -32,28 +32,11 @@ public class GUI  {
 		button = new JButton("Solve");
 		button.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	int[][] sendPuzzle = new int[9][9];
-
-		    	for(int i = 0; i < 9; i++) {
-					for(int j= 0; j < 9; j++) {
-						if(gridArray[i][j].getText() == "") {
-							sendPuzzle[i][j] = 0;
-						}
-						else {
-							sendPuzzle[i][j] = Integer.parseInt(gridArray[i][j].getText());							
-						}
-					}
-				}
-		    	
+		    	int[][] sendPuzzle = gridToPuzzle();
 		    	SudokuSolver.setPuzzle(sendPuzzle);
 		    	SudokuSolver.solvePuzzle();
 		    	int[][] solvedPuzzle = SudokuSolver.getPuzzle();
-		    	
-		    	for(int i = 0; i < 9; i++) {
-					for(int j= 0; j < 9; j++) {
-						gridArray[i][j].setText(Integer.toString(solvedPuzzle[i][j]));
-					}
-				}
+		    	puzzleToGrid(solvedPuzzle);
 		      }
 		    }
 		  );
@@ -66,7 +49,7 @@ public class GUI  {
 
 		for(int i = 0; i < 9; i++) {
 			for(int j= 0; j < 9; j++) {
-				gridArray[i][j] = new JTextField("0");
+				gridArray[i][j] = new JTextField("");
 				gridPanel.add(gridArray[i][j]);
 			}
 		}
@@ -81,6 +64,30 @@ public class GUI  {
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	public int[][] gridToPuzzle(){
+		int[][] initPuzzle = new int[9][9];
+    	for(int i = 0; i < 9; i++) {
+			for(int j= 0; j < 9; j++) {
+				if(gridArray[i][j].getText().equals("")) {
+					initPuzzle[i][j] = 0;
+				}
+				else {
+					initPuzzle[i][j] = Integer.parseInt(gridArray[i][j].getText());	
+				}
+			}
+		}
+		return initPuzzle;
+	}
+	
+	public void puzzleToGrid(int[][] solvedPuzzle) {
+		for(int i = 0; i < 9; i++) {
+			for(int j= 0; j < 9; j++) {
+				gridArray[i][j].setText(Integer.toString(solvedPuzzle[i][j]));
+			}
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		new GUI();
