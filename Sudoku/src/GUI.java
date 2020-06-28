@@ -26,7 +26,7 @@ public class GUI  {
 		frame = new JFrame();
 		
 		messagePanel = new JPanel();
-		message = new JLabel("       Enter integers 1-9 the click the solve button       ");
+		message = new JLabel("       Enter integers 1-9 then click the solve button       ");
 		messagePanel.add(message);
 		
 		button = new JButton("Solve");
