@@ -50,6 +50,7 @@ public class GUI  {
 		for(int i = 0; i < 9; i++) {
 			for(int j= 0; j < 9; j++) {
 				gridArray[i][j] = new JTextField("");
+				gridArray[i][j].setDocument(new JTextFieldLimit(1));
 				gridPanel.add(gridArray[i][j]);
 			}
 		}
