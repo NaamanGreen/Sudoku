@@ -1,4 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,19 +21,23 @@ public class GUI  {
 	private JPanel gridPanel;
 	private JPanel buttonPanel;
 	private static JTextField[][] gridArray = new JTextField[9][9];
+	private Font font1 = new Font("SansSerif", Font.BOLD, 20);
 	
-	private JButton button;
+	private JButton solveButton;
+	private JButton resetButton;
 
 	
 	public GUI() {
 		frame = new JFrame();
+		frame.setSize(500,500);
+		frame.setResizable(false);
 		
 		messagePanel = new JPanel();
 		message = new JLabel("       Enter integers 1-9 then click the solve button       ");
 		messagePanel.add(message);
 		
-		button = new JButton("Solve");
-		button.addActionListener(new ActionListener() {
+		solveButton = new JButton("Solve");
+		solveButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	int[][] sendPuzzle = gridToPuzzle();
 		    	SudokuSolver.setPuzzle(sendPuzzle);
@@ -41,30 +48,46 @@ public class GUI  {
 		    }
 		  );
 		
+		resetButton = new JButton("Reset");
+		resetButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	for(int i = 0; i < 9; i++) {
+					for(int j= 0; j < 9; j++) {
+						gridArray[i][j].setText("");
+					}
+				}
+		    }
+		  }
+		);
+
+	
 		gridPanel = new JPanel();
 		gridPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-		gridPanel.setLayout(new GridLayout(9,9,3,3));
-		
+		gridPanel.setLayout(new GridLayout(9,9,1,1));
 		buttonPanel = new JPanel();
 
 		for(int i = 0; i < 9; i++) {
 			for(int j= 0; j < 9; j++) {
 				gridArray[i][j] = new JTextField("");
+				gridArray[i][j].setHorizontalAlignment(JTextField.CENTER); 
+				gridArray[i][j].setFont(font1);
 				gridArray[i][j].setDocument(new JTextFieldLimit(1));
 				gridPanel.add(gridArray[i][j]);
 			}
 		}
 		
-		buttonPanel.add(button);
+		buttonPanel.add(solveButton);
+		buttonPanel.add(resetButton);
 		
 		frame.add(messagePanel, BorderLayout.PAGE_START);
 		frame.add(gridPanel, BorderLayout.CENTER);
 		frame.add(buttonPanel, BorderLayout.PAGE_END);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Our GUI");
-		frame.pack();
+		//frame.pack();
 		frame.setVisible(true);
 	}
+	
 	
 	public int[][] gridToPuzzle(){
 		int[][] initPuzzle = new int[9][9];
@@ -92,8 +115,6 @@ public class GUI  {
 	
 	public static void main(String[] args) {
 		new GUI();
-
-
 	}
 
 
