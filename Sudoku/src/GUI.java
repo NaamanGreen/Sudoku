@@ -81,7 +81,6 @@ public class GUI  {
 		          g2.drawLine(31,149,452,149);
 		          g2.drawLine(31,269,452,269);
 		          g2.drawLine(31,389,452,389);
-		          
 		       }
 		};
 		gridPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
