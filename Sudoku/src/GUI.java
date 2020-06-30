@@ -1,7 +1,9 @@
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,9 +65,27 @@ public class GUI  {
 		);
 
 	
-		gridPanel = new JPanel();
+		gridPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+		          super.paintComponent(g);
+		          Graphics2D g2 = (Graphics2D) g;
+		          g2.setStroke(new BasicStroke(2));
+		          g2.setColor(Color.BLACK);  
+		          //vertical lines
+		          g2.drawLine(30,30,30,388);
+		          g2.drawLine(171,30,171,388);
+		          g2.drawLine(312,30,312,388);
+		          g2.drawLine(453,30,453,388);
+		          //horizontal lines
+		          g2.drawLine(31,29,452,29);
+		          g2.drawLine(31,149,452,149);
+		          g2.drawLine(31,269,452,269);
+		          g2.drawLine(31,389,452,389);
+		          
+		       }
+		};
 		gridPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-		gridPanel.setLayout(new GridLayout(9,9,1,1));
+		gridPanel.setLayout(new GridLayout(9,9,3,3));
 		buttonPanel = new JPanel();
 
 		for(int i = 0; i < 9; i++) {
@@ -74,6 +94,7 @@ public class GUI  {
 				gridArray[i][j].setHorizontalAlignment(JTextField.CENTER); 
 				gridArray[i][j].setFont(font1);
 				gridArray[i][j].setDocument(new JTextFieldLimit(1));
+				
 				gridPanel.add(gridArray[i][j]);
 			}
 		}
@@ -88,8 +109,10 @@ public class GUI  {
 		frame.setTitle("Our GUI");
 		//frame.pack();
 		frame.setVisible(true);
+		
+		
 	}
-	
+
 	
 	public int[][] gridToPuzzle(){
 		int[][] initPuzzle = new int[9][9];
