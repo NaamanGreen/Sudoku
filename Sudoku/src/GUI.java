@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,7 +22,7 @@ public class GUI  {
 	private JLabel message;
 	private JPanel gridPanel;
 	private JPanel buttonPanel;
-	private static JTextField[][] gridArray = new JTextField[9][9];
+	private static JNumberTextField[][] gridArray = new JNumberTextField[9][9];
 	private Font font1 = new Font("SansSerif", Font.BOLD, 20);
 	
 	private JButton solveButton;
@@ -68,7 +70,7 @@ public class GUI  {
 
 		for(int i = 0; i < 9; i++) {
 			for(int j= 0; j < 9; j++) {
-				gridArray[i][j] = new JTextField("");
+				gridArray[i][j] = new JNumberTextField("");
 				gridArray[i][j].setHorizontalAlignment(JTextField.CENTER); 
 				gridArray[i][j].setFont(font1);
 				gridArray[i][j].setDocument(new JTextFieldLimit(1));
