@@ -1,37 +1,29 @@
 
 public class SudokuSolver {
 
-	public static int[][] puzzle;
+	public static Puzzle puzzle;
 	
-	public SudokuSolver(int[][] puzzleToSolve) {
-		this.puzzle = puzzleToSolve;
+	public SudokuSolver(Puzzle p) {
+		this.puzzle = p;
 		
 	}
 
-	public static void printPuzzle() {
-		for(int[] array : puzzle) {
-			for (int j : array) {
-				System.out.print(j + " ");
-			}
-			System.out.println();
-		}
-	}
-	
-	
+	//Solves puzzle
 	public static boolean solvePuzzle()
 	{
+		int[][] board = puzzle.getPuzzle();
 	    for(int row=0;row<9;row++){
 	        for(int col=0;col<9;col++){
-	            if(puzzle[row][col] == 0){
+	            if(board[row][col] == 0){
 	                for(int number=1;number<=9;number++){
 
-	                    if(!fullNumCheck(number, row, col, puzzle)){
-	                        puzzle[row][col] = number;
+	                    if(!fullNumCheck(number, row, col, board)){
+	                        board[row][col] = number;
 	                        if(solvePuzzle()){
 	                            return true;
 	                        }
 	                        else{
-	                            puzzle[row][col] = 0;
+	                            board[row][col] = 0;
 	                        }
 	                    }
 	                }
@@ -42,6 +34,7 @@ public class SudokuSolver {
 	    return true;
 	}
 	
+	//Checks cell value is in row
 	public static boolean numInRow(int cell, int[] array) {
 		int count = 0;
 		for (int i : array) {
@@ -55,6 +48,8 @@ public class SudokuSolver {
 		return false;
 	}
 	
+	
+	//Checks cell value is in column
 	public static boolean numInColumn(int cell, int column, int[][] puzzle) {
 		int count = 0;
 		
@@ -70,6 +65,7 @@ public class SudokuSolver {
 		return false;
 	}
 	
+	//Checks cell value is in sub-grid
 	public static boolean numInSubGrid(int cell, int row, int column, int[][] puzzle) {
 		int rowStart = row/3*3;
 		int rowEnd = rowStart + 2;
@@ -92,19 +88,13 @@ public class SudokuSolver {
 		return false;
 	}
 	
+	
+	//Checks cell value is in row, column, or sub-grid
 	public static boolean fullNumCheck(int cell, int row, int column, int[][] puzzle) {
 		if (numInRow(cell, puzzle[row]) || numInColumn(cell, column, puzzle) || numInSubGrid (cell, row, column, puzzle)) {
 			return true;
 		}
 		return false;
 	}
-		
-	public static void setPuzzle(int[][] sentPuzzle) {
-		puzzle = sentPuzzle;
-	}
 	
-	public static int[][] getPuzzle(){
-		return puzzle;
-	}
-
 }

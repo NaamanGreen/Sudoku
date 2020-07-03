@@ -19,19 +19,24 @@ import javax.swing.JTextField;
 
 public class GUI  {
 
+	//Initialize variables
 	private JFrame frame;
 	private JPanel messagePanel;
-	private JLabel message;
 	private JPanel gridPanel;
 	private JPanel buttonPanel;
+	private JLabel message;
+	
 	private static JNumberTextField[][] gridArray = new JNumberTextField[9][9];
 	private Font font1 = new Font("SansSerif", Font.BOLD, 20);
 	
 	private JButton solveButton;
 	private JButton resetButton;
 
+	private static Puzzle puzzle = new Puzzle();
+	private static SudokuSolver solver = new SudokuSolver(puzzle);
 	
 	public GUI() {
+		//Set frame and panels
 		frame = new JFrame();
 		frame.setSize(500,500);
 		frame.setResizable(false);
@@ -40,31 +45,6 @@ public class GUI  {
 		message = new JLabel("       Enter integers 1-9 then click the solve button       ");
 		messagePanel.add(message);
 		
-		solveButton = new JButton("Solve");
-		solveButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		    	int[][] sendPuzzle = gridToPuzzle();
-		    	SudokuSolver.setPuzzle(sendPuzzle);
-		    	SudokuSolver.solvePuzzle();
-		    	int[][] solvedPuzzle = SudokuSolver.getPuzzle();
-		    	puzzleToGrid(solvedPuzzle);
-		      }
-		    }
-		  );
-		
-		resetButton = new JButton("Reset");
-		resetButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		    	for(int i = 0; i < 9; i++) {
-					for(int j= 0; j < 9; j++) {
-						gridArray[i][j].setText("");
-					}
-				}
-		    }
-		  }
-		);
-
-	
 		gridPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 		          super.paintComponent(g);
@@ -87,6 +67,7 @@ public class GUI  {
 		gridPanel.setLayout(new GridLayout(9,9,3,3));
 		buttonPanel = new JPanel();
 
+		//Initialize grid
 		for(int i = 0; i < 9; i++) {
 			for(int j= 0; j < 9; j++) {
 				gridArray[i][j] = new JNumberTextField("");
@@ -98,21 +79,44 @@ public class GUI  {
 			}
 		}
 		
+		//Buttons
+		solveButton = new JButton("Solve");
+		solveButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	int[][] sendPuzzle = gridToPuzzle();
+		    	puzzle.setPuzzle(sendPuzzle);
+		    	solver.solvePuzzle();
+		    	int[][] solvedPuzzle = puzzle.getPuzzle();
+		    	puzzleToGrid(solvedPuzzle);
+		      }
+		    }
+		  );
+		
+		resetButton = new JButton("Reset");
+		resetButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	for(int i = 0; i < 9; i++) {
+					for(int j= 0; j < 9; j++) {
+						gridArray[i][j].setText("");
+					}
+				}
+		    }
+		  }
+		);
+		
 		buttonPanel.add(solveButton);
 		buttonPanel.add(resetButton);
 		
+		//Final frame setup
 		frame.add(messagePanel, BorderLayout.PAGE_START);
 		frame.add(gridPanel, BorderLayout.CENTER);
 		frame.add(buttonPanel, BorderLayout.PAGE_END);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Our GUI");
-		//frame.pack();
+		frame.setTitle("Sudoku GUI");
 		frame.setVisible(true);
-		
-		
 	}
 
-	
+	//Turn grid input into board format
 	public int[][] gridToPuzzle(){
 		int[][] initPuzzle = new int[9][9];
     	for(int i = 0; i < 9; i++) {
@@ -128,6 +132,7 @@ public class GUI  {
 		return initPuzzle;
 	}
 	
+	//Populate grid with solved puzzle
 	public void puzzleToGrid(int[][] solvedPuzzle) {
 		for(int i = 0; i < 9; i++) {
 			for(int j= 0; j < 9; j++) {

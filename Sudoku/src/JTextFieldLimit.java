@@ -10,6 +10,7 @@ public class JTextFieldLimit extends PlainDocument {
 		limit = l;
 	}
 	
+	//Limits number of characters in cell to 1
 	public void insertString(int offset, String s, AttributeSet set) throws BadLocationException {
 		if(s == null) {
 			return;

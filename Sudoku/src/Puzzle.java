@@ -1,6 +1,7 @@
 
 public class Puzzle {
-
+	
+	//Initialize puzzle
 	int[][] puzzle = {
 			{0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0},
@@ -26,10 +27,6 @@ public class Puzzle {
 		return puzzle;
 	}
 
-	public String getCell(int row, int col) {
-		return String.valueOf(puzzle[row][col]);
-	}
-	
 	public static void printPuzzle(int[][] puzzle) {
 		for(int[] array : puzzle) {
 			for (int j : array) {

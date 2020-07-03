@@ -7,6 +7,7 @@ public class JNumberTextField extends JTextField {
 		
 	}
 	
+	//Only allows digits 1-9, backspace, and delete keys
 	public void processKeyEvent(KeyEvent ev) {
 		char c = ev.getKeyChar();
         if ((Character.isDigit(c) && c != KeyEvent.VK_0) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE  ) {
