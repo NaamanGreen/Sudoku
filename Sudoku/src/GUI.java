@@ -35,6 +35,10 @@ public class GUI  {
 	private static Puzzle puzzle = new Puzzle();
 	private static SudokuSolver solver = new SudokuSolver(puzzle);
 	
+	private static String startMessage = "       Enter integers 1-9 then click the solve button       ";
+	private static String solvedMessage = "   Puzzle solved!  Press Reset to enter a new puzzle.  ";
+	private static String unsolveableMessage = "  Puzzle is not solveable.  Press Reset to enter a new puzzle.   ";
+	
 	public GUI() {
 		//Set frame and panels
 		frame = new JFrame();
@@ -42,7 +46,7 @@ public class GUI  {
 		frame.setResizable(false);
 		
 		messagePanel = new JPanel();
-		message = new JLabel("       Enter integers 1-9 then click the solve button       ");
+		message = new JLabel(startMessage);
 		messagePanel.add(message);
 		
 		gridPanel = new JPanel() {
@@ -85,9 +89,15 @@ public class GUI  {
 		    public void actionPerformed(ActionEvent e) {
 		    	int[][] sendPuzzle = gridToPuzzle();
 		    	puzzle.setPuzzle(sendPuzzle);
-		    	solver.solvePuzzle();
-		    	int[][] solvedPuzzle = puzzle.getPuzzle();
-		    	puzzleToGrid(solvedPuzzle);
+		    	if(solver.checkSubmittedBoard()) {
+		    		solver.solvePuzzle();
+		    		message.setText(solvedMessage);
+		    		int[][] solvedPuzzle = puzzle.getPuzzle();
+			    	puzzleToGrid(solvedPuzzle);
+		    	} else {
+		    		message.setText(unsolveableMessage);
+		    	}
+		    	
 		      }
 		    }
 		  );
@@ -95,11 +105,7 @@ public class GUI  {
 		resetButton = new JButton("Reset");
 		resetButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	for(int i = 0; i < 9; i++) {
-					for(int j= 0; j < 9; j++) {
-						gridArray[i][j].setText("");
-					}
-				}
+		    	resetPuzzle();
 		    }
 		  }
 		);
@@ -130,6 +136,16 @@ public class GUI  {
 			}
 		}
 		return initPuzzle;
+	}
+	
+	//Reset puzzle, grid, and message panel
+	public void resetPuzzle() {
+		for(int i = 0; i < 9; i++) {
+			for(int j= 0; j < 9; j++) {
+				gridArray[i][j].setText("");
+			}
+		}
+		message.setText(startMessage);
 	}
 	
 	//Populate grid with solved puzzle

@@ -7,10 +7,25 @@ public class SudokuSolver {
 		this.puzzle = p;
 		
 	}
+	
+	//Check puzzle before solving
+	public static boolean checkSubmittedBoard() {
+		int[][] board = puzzle.getPuzzle();
+		for(int row = 0; row < 9; row++) {
+			for(int col = 0; col < 9; col++) {
+				int cellValue = board[row][col];
+				if(cellValue != 0) {
+					if(fullNumCheck(cellValue,row,col,board)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
 
 	//Solves puzzle
-	public static boolean solvePuzzle()
-	{
+	public static boolean solvePuzzle()	{
 		int[][] board = puzzle.getPuzzle();
 	    for(int row=0;row<9;row++){
 	        for(int col=0;col<9;col++){
